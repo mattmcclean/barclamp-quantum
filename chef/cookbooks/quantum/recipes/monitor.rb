@@ -19,42 +19,12 @@
 ####
 # if monitored by nagios, install the nrpe commands
 
-# Nova scale data holder
-quantum_scale = {
-  :computes => [],
-  :servers => [],
-  :apis => []
-}
-
-unless node[:quantum_environment].nil?
-  search(:node, "roles:nova-single-machine AND quantum_environment:#{node[:quantum_environment]}") do |n|
-    quantum_scale[:computes] << n
-    quantum_scale[:servers] << n
-    quantum_scale[:apis] << n
-  end
-
-  search(:node, "roles:quantum-server AND quantum_environment:#{node[:quantum_environment]}") do |n|
-    quantum_scale[:servers] << n
-    quantum_scale[:apis] << n    
-  end
-
-  search(:node, "roles:quantum-client AND quantum_environment:#{node[:quantum_environment]}") do |n|
-    quantum_scale[:apis] << n
-  end
-  
-  search(:node, "roles:quantum-agent AND quantum_environment:#{node[:quantum_environment]}") do |n|
-    quantum_scale[:computes] << n
-  end  
-end
 
 template "/etc/nagios/nrpe.d/quantum_nrpe.cfg" do
   source "quantum_nrpe.cfg.erb"
   mode "0644"
   group node[:nagios][:group]
-  owner node[:nagios][:user]
-  variables( {
-    :quantum_scale => quantum_scale
-  })    
-   notifies :restart, "service[nagios-nrpe-server]"
+  owner node[:nagios][:user] 
+  notifies :restart, "service[nagios-nrpe-server]"
 end if node["roles"].include?("nagios-client")    
 
