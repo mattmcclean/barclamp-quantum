@@ -1,0 +1,10 @@
+maintainer       "Matt McClean"
+maintainer_email "matt.mcclean@gmail.com"
+license          "Apache 2.0"
+description      "Installs/Configures Quantum"
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version          "0.1"
+depends          "mysql"
+depends          "openssl"
+depends          "python"
+depends          "database"

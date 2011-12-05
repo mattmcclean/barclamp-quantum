@@ -1,0 +1,11 @@
+
+<% unless node[:quantum].nil? or node[:quantum][:server][:plugin][:ovs][:db].nil? -%>
+command[check_quantum_mysql]=/usr/lib/nagios/plugins/check_mysql -H localhost -u <%= node[:quantum][:server][:plugin][:ovs][:db][:user] %> -p <%= node[:quantum][:server][:plugin][:ovs][:db][:password] %> -d <%= node[:quantum][:server][:plugin][:ovs][:database] %>
+<% end -%>
+
+<% if node["roles"].include?("quantum-agent") %>
+command[check_quantum_agent]=/usr/lib/nagios/plugins/check_procs -w 2:4 -c 2:10 -a "ovs_quantum_agent.py"
+<% end %>
+<% if node["roles"].include?("quantum-server") %>
+command[check_quantum_server]=/usr/lib/nagios/plugins/check_procs -w 2:4 -c 2:10 -a "quantum-server"
+<% end %>

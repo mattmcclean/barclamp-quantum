@@ -1,0 +1,9 @@
+[DATABASE]
+name = <%= node["quantum"]["server"]["plugin"]["ovs"]["database"] %>
+user = <%= node["quantum"]["server"]["plugin"]["ovs"]["db"]["user"] %>
+pass = <%= node["quantum"]["server"]["plugin"]["ovs"]["db"]["password"] %>
+host = <%= node["quantum"]["server"]["plugin"]["ovs"]["db"]["host"] %>
+port = <%= node["quantum"]["server"]["plugin"]["ovs"]["db"]["port"] %>
+
+[OVS]
+integration-bridge = br-int
