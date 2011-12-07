@@ -1,0 +1,26 @@
+{
+  "id": "bc-template-quantum",
+  "description": "Installation for Quantum",
+  "attributes": {
+    "quantum": {
+      "foo": "bar"
+    }
+  },
+  "deployment": {
+    "quantum": {
+      "crowbar-revision": 0,
+      "elements": {},
+      "element_order": [
+        [ "quantum-server" ]
+      ],
+      "config": {
+        "environment": "quantum-base-config",
+        "mode": "full",
+        "transitions": false,
+        "transition_list": [
+        ]
+      }
+    }
+  }
+}
+

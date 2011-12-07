@@ -1,7 +1,10 @@
 name "quantum-server"
-description "Installs requirements to run a Quantum Server"
+description "Quantum Server Role"
 run_list(
          "recipe[quantum::api]",
          "recipe[quantum::server]",
          "recipe[quantum::monitor]"
-         )
+)
+default_attributes()
+override_attributes()
+

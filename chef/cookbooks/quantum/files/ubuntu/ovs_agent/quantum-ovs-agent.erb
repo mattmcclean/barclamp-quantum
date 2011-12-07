@@ -14,14 +14,14 @@ set -e
 PIDFILE=/var/run/quantum/ovs-plugin-agent.pid
 LOGFILE=/var/log/quantum/ovs-plugin-agent.log
 
-DAEMON_DIR=<%= node["quantum"]["base_dir"] %>
-DAEMON="python"
-DAEMON_ARGS="<%= node["quantum"]["plugin"]["lib_dir"] %>/agent/ovs_quantum_agent.py <%= node["quantum"]["plugin"]["config_dir"] %>/ovs_quantum_plugin.ini -v"
+DAEMON_DIR=/var/run
+DAEMON=/usr/bin/python
+DAEMON_ARGS="/etc/quantum/plugins/openvswitch/agent/ovs_quantum_agent.py /etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini -v"
 
 ENABLED=true
 
-if test -f /etc/default/quantum-server; then
-  . /etc/default/quantum-server
+if test -f /etc/default/ovs-plugin-agent; then
+  . /etc/default/ovs-plugin-agent
 fi
 
 mkdir -p /var/run/quantum
@@ -39,13 +39,13 @@ fi
 case "$1" in
   start)
     test "$ENABLED" = "true" || exit 0
-    log_daemon_msg "Starting quantum server" "quantum-server"
+    log_daemon_msg "Starting ovs agent" "ovs-plugin-agent"
     start-stop-daemon -Sbmv --pidfile $PIDFILE --chdir $DAEMON_DIR --exec $DAEMON -- $DAEMON_ARGS
     log_end_msg $?
     ;;
   stop)
     test "$ENABLED" = "true" || exit 0
-    log_daemon_msg "Stopping quantum server" "quantum-server"
+    log_daemon_msg "Stopping ovs agent" "ovs-plugin-agent"
     start-stop-daemon --stop --oknodo --pidfile ${PIDFILE}
     log_end_msg $?
     ;;
@@ -57,10 +57,10 @@ case "$1" in
     ;;
   status)
     test "$ENABLED" = "true" || exit 0
-    status_of_proc -p $PIDFILE $DAEMON quantum-server && exit 0 || exit $?
+    status_of_proc -p $PIDFILE $DAEMON ovs-plugin-agent && exit 0 || exit $?
     ;;
   *)
-    log_action_msg "Usage: /etc/init.d/quantum-server {start|stop|restart|force-reload|status}"
+    log_action_msg "Usage: /etc/init.d/ovs-plugin-agent {start|stop|restart|force-reload|status}"
     exit 1
     ;;
 esac

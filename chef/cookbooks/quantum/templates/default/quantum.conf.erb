@@ -6,10 +6,10 @@ verbose = <%= node["quantum"]["verbose"] %>
 debug = <%= node["quantum"]["debug"] %>
 
 # Address to bind the API server
-bind_host = <%= node["quantum"]["bind_host"] %>
+bind_host = <%= node["quantum"]["api_bind_host"] %>
 
 # Port the bind the API server to
-bind_port = <%= node["quantum"]["bind_port"] %>
+bind_port = <%= node["quantum"]["api_bind_port"] %>
 
 # Path to the extensions.  Note that this can be a colon-separated list of
 # paths.  For example:

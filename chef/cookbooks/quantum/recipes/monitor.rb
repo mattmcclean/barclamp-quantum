@@ -13,18 +13,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Author: Matthew McClean
+# Author: andi abes
 #
 
 ####
 # if monitored by nagios, install the nrpe commands
 
+# Node addresses are dynamic and can't be set from attributes only.
+node[:quantum][:monitor][:ports]["quantum-api"] = [node[:quantum][:api_bind_host], node[:quantum][:api_bind_port]]
+
+svcs = node[:quantum][:monitor][:svcs]
+ports = node[:quantum][:monitor][:ports]
+log ("will monitor quantum svcs: #{svcs.join(',')} and ports #{ports.values.join(',')}")
 
 template "/etc/nagios/nrpe.d/quantum_nrpe.cfg" do
   source "quantum_nrpe.cfg.erb"
   mode "0644"
   group node[:nagios][:group]
-  owner node[:nagios][:user] 
-  notifies :restart, "service[nagios-nrpe-server]"
+  owner node[:nagios][:user]
+  variables( {
+    :svcs => svcs ,
+    :ports => ports
+  })    
+   notifies :restart, resources(:service => "nagios-nrpe-server")
 end if node["roles"].include?("nagios-client")    
 
