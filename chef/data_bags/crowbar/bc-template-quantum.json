@@ -3,7 +3,22 @@
   "description": "Installation for Quantum",
   "attributes": {
     "quantum": {
-      "foo": "bar"
+      "version": "2012.1dev-2_all",
+      "verbose": true,
+      "debug": true,
+      "server": {
+      	"plugin": {
+      		"name": "openvswitch",
+      		"module": "quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPlugin",
+      		"ovs": {
+      			"database": "ovs_quantum",
+      			"db": {
+      				"username": "quantum",
+      				"password": "quantum"
+      			}
+      		}
+      	{
+      {
     }
   },
   "deployment": {
@@ -11,7 +26,9 @@
       "crowbar-revision": 0,
       "elements": {},
       "element_order": [
-        [ "quantum-server" ]
+        [ "quantum-client" ],
+        [ "quantum-ovs-agent" ],
+        [ "quantum-server" ]        
       ],
       "config": {
         "environment": "quantum-base-config",

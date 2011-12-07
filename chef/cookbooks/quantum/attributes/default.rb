@@ -22,8 +22,8 @@ node[:quantum][:monitor][:ports]={}
 
 default[:quantum][:version] = "2012.1dev-2_all"
 
-default[:quantum][:verbose] = "True"
-default[:quantum][:debug] = "True"
+default[:quantum][:verbose] = true
+default[:quantum][:debug] = true
 default[:quantum][:api_bind_host] = "0.0.0.0"
 default[:quantum][:api_bind_port] = "9696"
 
