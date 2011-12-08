@@ -82,7 +82,10 @@ debs:
     - python-setuptools
     - mysql-client
     - python-dev
-    - 
+    - openvswitch-switch
+    - openvswitch-datapath-dkms
+    - linux-headers-2.6.35-22-generic
+    
   # raw_pkgs is a list of URLs to .deb packages that the build system will try
   # to download and add to the iso.  It does not do dependency checking, and
   # it uses curl to handle the actual download process.
