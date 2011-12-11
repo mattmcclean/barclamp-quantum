@@ -44,7 +44,7 @@ barclamp:
   # section, Crowbar will assume the barclamp works on all the operating
   # systems it supports.  
   os_support:
-    - ubuntu-10.10
+    - ubuntu-11.10
 
 crowbar:
   layout: 1

@@ -20,6 +20,7 @@ node[:quantum][:monitor]={}
 node[:quantum][:monitor][:svcs] = []
 node[:quantum][:monitor][:ports]={}
 
+default[:quantum][:deb_repository] = "http://dl.dropbox.com/u/3256948/"
 default[:quantum][:version] = "2012.1dev-2_all"
 
 default[:quantum][:verbose] = true
