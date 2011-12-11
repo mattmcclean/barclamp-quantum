@@ -68,9 +68,12 @@ debs:
     - python-dev
     - openvswitch-switch
     - openvswitch-datapath-dkms
-    - linux-headers-2.6.35-22-generic
-    
-  
-
-
+    - linux-headers-3.0.0-12-server
+    - linux-headers-3.0.0-13-server  
+  raw_pkgs:
+    - http://dl.dropbox.com/u/3256948/quantum-server_2012.1dev-2_all.deb    
+    - http://dl.dropbox.com/u/3256948/quantum-common_2012.1dev-2_all.deb    
+    - http://dl.dropbox.com/u/3256948/quantum-client_2012.1dev-2_all.deb      
+    - http://dl.dropbox.com/u/3256948/quantum-openvswitch-plugin_2012.1dev-2_all.deb
+    - http://dl.dropbox.com/u/3256948/quantum-sample-plugin_2012.1dev-2_all.deb
         

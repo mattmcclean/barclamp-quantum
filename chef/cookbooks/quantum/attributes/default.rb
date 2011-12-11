@@ -20,6 +20,7 @@ node[:quantum][:monitor]={}
 node[:quantum][:monitor][:svcs] = []
 node[:quantum][:monitor][:ports]={}
 
+default[:quantum][:use_local_repo] = true
 default[:quantum][:deb_repository] = "http://dl.dropbox.com/u/3256948/"
 default[:quantum][:version] = "2012.1dev-2_all"
 
@@ -31,5 +32,6 @@ default[:quantum][:api_bind_port] = "9696"
 default[:quantum][:server][:plugin][:name] = "openvswitch"
 default[:quantum][:server][:plugin][:module] = "quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPlugin"
 default[:quantum][:server][:plugin][:ovs][:database] = "ovs_quantum"
+default[:quantum][:server][:plugin][:ovs][:sql_engine] = "mysql"
 default[:quantum][:server][:plugin][:ovs][:db][:user] = "quantum"
 default[:quantum][:server][:plugin][:ovs][:db][:password] = "quantum"
