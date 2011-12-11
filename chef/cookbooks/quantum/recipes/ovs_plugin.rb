@@ -18,7 +18,7 @@ package "openvswitch-datapath-dkms"
 
 quantum_package "openvswitch-plugin"
  
-if node[:keystone][:sql_engine] == "mysql"
+if node[:quantum][:server][:plugin][:ovs][:sql_engine] == "mysql"
     Chef::Log.info("Configuring Quantum to use MySQL backend")
 
     include_recipe "mysql::client"
