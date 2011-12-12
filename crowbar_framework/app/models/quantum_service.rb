@@ -35,6 +35,25 @@ class QuantumService < ServiceObject
       }
     end
 
+    base["attributes"]["quantum"]["mysql_instance"] = ""
+    begin
+      mysqlService = MysqlService.new(@logger)
+      mysqls = mysqlService.list_active[1]
+      if mysqls.empty?
+        # No actives, look for proposals
+        mysqls = mysqlService.proposals[1]
+      end
+      if mysqls.empty?
+        base["attributes"]["quantum"]["database"] = "sqlite"
+      else
+        base["attributes"]["quantum"]["mysql_instance"] = mysqls[0]
+        base["attributes"]["quantum"]["database"] = "mysql"
+      end
+    rescue
+      base["attributes"]["quantum"]["database"] = "sqlite"
+      @logger.info("Quantum create_proposal: no mysql found")
+    end
+
     @logger.debug("Quantum create_proposal: exiting")
     base
   end

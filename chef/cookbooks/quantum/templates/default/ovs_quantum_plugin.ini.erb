@@ -1,9 +1,9 @@
 [DATABASE]
-name = <%= node["quantum"]["server"]["plugin"]["ovs"]["database"] %>
-user = <%= node["quantum"]["server"]["plugin"]["ovs"]["db"]["user"] %>
-pass = <%= node["quantum"]["server"]["plugin"]["ovs"]["db"]["password"] %>
-host = <%= node["quantum"]["server"]["plugin"]["ovs"]["db"]["host"] %>
-port = <%= node["quantum"]["server"]["plugin"]["ovs"]["db"]["port"] %>
+name = <%= @db_name %>
+user = <%= @db_user %>
+pass = <%= @db_pass %>
+host = <%= @db_host %>
+port = <%= @db_port %>
 
 [OVS]
 integration-bridge = br-int

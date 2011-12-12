@@ -6,19 +6,10 @@
 
 Chef::Log.info("Configuring Quantum to use openvswitch plugin")
 
-bash "install linux headers" do
-  code <<-EOH
-  sudo apt-get install -y linux-headers-${uname -r}
-  EOH
-end
-
-package "openvswitch-switch"
-
-package "openvswitch-datapath-dkms"
-
 quantum_package "openvswitch-plugin"
  
-if node[:quantum][:server][:plugin][:ovs][:sql_engine] == "mysql"
+if node[:quantum][:database_type] == "mysql"
+
     Chef::Log.info("Configuring Quantum to use MySQL backend")
 
     include_recipe "mysql::client"
@@ -33,40 +24,28 @@ if node[:quantum][:server][:plugin][:ovs][:sql_engine] == "mysql"
         mysql = mysqls[0]
         mysql = node if mysql.name == node.name
     else
-        mysql = node
+        mysql = node	
     end
 
-    mysql_address = Chef::Recipe::Barclamp::Inventory.get_network_by_type(mysql, "admin").address if mysql_address.nil?
+    mysql_address = Chef::Recipe::Barclamp::Inventory.get_network_by_type(mysql, "admin").address if mysql_address.nil?    
     Chef::Log.info("Mysql server found at #{mysql_address}")
-
-	mysql_connection_info = {:host => mysql_address, :username => "db_maker", :password => mysql[:mysql][:db_maker_password]}
-	  
-	# Create the Quantum Database
-	mysql_database node[:quantum][:server][:plugin][:ovs][:database] do
-	  connection mysql_connection_info
-	  action :create
+  
+    template "#{node[:quantum][:server][:plugin][:ovs][:config_file]}" do
+	  source "ovs_quantum_plugin-server.ini.erb"
+	  owner "root"
+	  group "root"
+	  mode "0644"
+	  variables( {
+		:db_name => node[:quantum][:database_name],
+		:db_user => node[:quantum][:server][:plugin][:ovs][:db_user],
+		:db_pass => node[:quantum][:server][:plugin][:ovs][:db_password],
+		:db_host => mysql_address,
+		:db_port => node[:quantum][:database_port]
+	  })   
+	  notifies :restart, "service[quantum-server]" 
 	end
-	
-	mysql_database_user node[:quantum][:server][:plugin][:ovs][:db][:user] do
-	  connection mysql_connection_info
-	  password node[:quantum][:server][:plugin][:ovs][:db][:password]
-	  action :create
-	end
-	
-	mysql_database_user node[:quantum][:server][:plugin][:ovs][:db][:user] do
-	  connection mysql_connection_info
-	  password node[:quantum][:server][:plugin][:ovs][:db][:password]
-	  database_name node[:quantum][:server][:plugin][:ovs][:database]
-	  host '%'
-	  action :grant
-	end
+  	
 end 
  
-template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
-  source "ovs_quantum_plugin.ini.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :restart, "service[quantum-server]" 
-end
+
 

@@ -1,7 +1,7 @@
 name "quantum-server"
 description "Quantum Server Role"
 run_list(
-         "recipe[quantum::api]",
+         "recipe[quantum::client]",
          "recipe[quantum::server]",
          "recipe[quantum::monitor]"
 )

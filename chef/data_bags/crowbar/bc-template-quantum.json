@@ -3,22 +3,33 @@
   "description": "Installation for Quantum",
   "attributes": {
     "quantum": {
-      "version": "2012.1dev-2_all",
-      "verbose": true,
-      "debug": true,
-      "server": {
-      	"plugin": {
-      		"name": "openvswitch",
-      		"module": "quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPlugin",
-      		"ovs": {
-      			"database": "ovs_quantum",
-      			"db": {
-      				"username": "quantum",
-      				"password": "quantum"
-      			}
-      		}      	  
+      "client": {
+		  "verbose": true	
+      }
+	  "server": {
+		  "verbose": true,	  
+		  "bind_open_address": true,
+	  	  "plugin": {
+	  	    "name": "openvswitch",
+			"module": "quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPlugin",
+			"ovs": {
+			  "db_user": "quantum",
+			  "db_password": "quantum"
+			}      	  
       	 }
       }
+      "ovs_agent": {
+	  	"verbose": true,      	
+		"db_user": "quantum",
+	    "db_password": "quantum"   	
+      }
+      "version": "2012.1dev-2_all",
+      "sql_idle_timeout": 3600,
+      "use_keystone": true,
+      "keystone_instance": "none",
+      "database": "mysql",
+      "database_name": "ovs_quantum",
+      "mysql_instance": "none"      
     }
   },
   "deployment": {

@@ -1,15 +1,15 @@
 [DEFAULT]
 # Show more verbose log output (sets INFO log level output)
-verbose = <%= node["quantum"]["verbose"] %>
+verbose = <%= @verbose %>
 
 # Show debugging output in logs (sets DEBUG log level output)
-debug = <%= node["quantum"]["debug"] %>
+debug = <%= @debug %>
 
 # Address to bind the API server
-bind_host = <%= node["quantum"]["api_bind_host"] %>
+bind_host = <%= @bind_host %>
 
 # Port the bind the API server to
-bind_port = <%= node["quantum"]["api_bind_port"] %>
+bind_port = <%= @bind_port %>
 
 # Path to the extensions.  Note that this can be a colon-separated list of
 # paths.  For example:

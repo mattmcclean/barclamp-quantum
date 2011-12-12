@@ -22,19 +22,30 @@ else
 
 end  
 
-template "/etc/quantum/plugins.ini" do
+template "#{node[:quantum][:server][:plugin_ini_file]}" do
     source "plugins.ini.erb"
     owner "root"
     group "root"
-    mode "0644"
+    mode "0644"    
     notifies :restart, "service[quantum-server]" 
 end
 
-template "/etc/quantum/quantum.conf" do
+# Make sure we use the admin node for now.
+my_ipaddress = Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, "admin").address
+node[:quantum][:server][:bind_host] = my_ipaddress
+node.save
+
+template "#{node[:quantum][:server][:config_file]}" do
   source "quantum.conf.erb"
   owner "root"
   group "root"
   mode "0644"
+  variables({
+	:verbose      => node[:quantum][:server][:verbose],
+	:debug        => node[:quantum][:server][:debug],
+	:bind_host    => node[:quantum][:server][:bind_host],
+	:bind_port => node[:quantum][:server][:bind_port]
+  })   
   notifies :restart, "service[quantum-server]"  
 end
 
@@ -44,3 +55,4 @@ service "quantum-server" do
 end
 
 node[:quantum][:monitor][:svcs] <<["quantum-server"]
+node[:quantum][:monitor][:ports] <<[node[:quantum][:server][:bind_port]]
